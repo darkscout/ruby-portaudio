@@ -215,6 +215,15 @@ module PortAudio
       new(C.Pa_GetDefaultHostApi())
     end
 
+    def self.[](index)
+      case index
+      when (0 ... count)	
+	    new(index)
+	  else
+	    raise RuntimeError, "Host API count out of bounds"
+	  end
+    end
+	  
     class << self
       private :new
     end
@@ -253,11 +262,13 @@ module PortAudio
         case index
         when (0 ... count)
           Device.new(C.Pa_HostApiDeviceIndexToDeviceIndex(@host_index, index))
+	    else
+	      raise RuntimeError, "Device index out of bounds"
         end
       end
 
       def each
-        0.upto(count) { |i| yield self[i] }
+        0.upto(count-1) { |i| yield self[i] }
       end
 
       def default_input
@@ -288,6 +299,7 @@ module PortAudio
     end
 
     def initialize(index)
+	  print "init DEVICE", index, "\n"
       @index = index
       infop = C.Pa_GetDeviceInfo(@index)
       raise RuntimeError, "Device not found" if infop.null?
@@ -429,8 +441,10 @@ module PortAudio
       C.Pa_GetStreamCpuLoad(@stream)
     end
 
-    def read
-      raise NotImplementedError, "Stream#read is not implemented" # TODO ;)
+    def read(buffer)
+      PortAudio.invoke {
+	    C.Pa_ReadStream(@stream, buffer.to_ptr, buffer.frames)
+	  }
     end
 
     def write(buffer)
