@@ -476,6 +476,10 @@ module PortAudio
       @buffer
     end
 
+    def add (data)
+      @buffer.put_string 0,data
+    end
+    
     def fill
       (0...@frames).each do |frame|
         (0...@channels).each do |channel|

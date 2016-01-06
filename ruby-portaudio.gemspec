@@ -6,7 +6,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 Gem::Specification.new do |spec|
   spec.name          = "ruby-portaudio"
   spec.version       = "1.0"
-  spec.authors       = ["Jeremy Voorhis", "Doug Hiebert", "Swen Weiland"]
+  spec.authors       = ["Jeremy Voorhis", "Doug Hiebert", "Swen Weiland", "dafoxia"]
   spec.email         = [""]
   spec.description   = %q{Ruby FFI Gem for the PortAudio >= 1.9 lib}
   spec.summary       = %q{Ruby FFI wrapper for the PortAudio C library for audio playing, recording}
